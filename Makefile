@@ -12,25 +12,23 @@ docker_run := docker run -itd --rm
 #-----------------------------------------------------------------------------------------
 # SECTION: MANAGE SERVICE
 start:
-	docker-compose -f docker-compose.yml up
+	docker-compose -f airflow-service.yml up
 
 stop:
-	docker-compose -f docker-compose.yml down
+	docker-compose -f airflow-service.yml down
 
-ping-es:
-	curl -v "localhost:9200/_cat/nodes?v&pretty"
-	curl -v "localhost:9200/_cat/indices?v&pretty"
+# make SERVICE=airflow restart
+restart:
+	docker-compose -f airflow-service.yml restart ${SERVICE}
 
-network-inspect:
+service-inspect:
 	docker network list
-	docker network inspect presto-n
-	docker exec -it kibana ping es -v -c 5
+	docker exec -it airflow ping postgres -v -c 5
 
 #-----------------------------------------------------------------------------------------
-# SECTION: ELASTIC QUERIES
+# SECTION: AIRFLOW COMAMNDS
 example-search:
 	$(MAKE) \
 	INDEX='kibana_sample_data_flights' \
 	QUERY=@$(PWD)/lucene_queries/flights.json \
 	--directory es search
-
