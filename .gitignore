@@ -16,7 +16,7 @@ wheels/
 
 # Mac stuff
 .DS_Store
-.idea/
+.idea
 */workspace.xml
 
 # CircleCI
