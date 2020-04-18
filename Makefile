@@ -17,6 +17,11 @@ start:
 stop:
 	docker-compose -f airflow-service.yml down
 
+# make SERVICE=airflow shell
+# make SERVICE=postgres_airflow shell
+shell:
+	docker exec -it ${SERVICE} /bin/bash
+
 # make SERVICE=airflow restart
 restart:
 	docker-compose -f airflow-service.yml restart ${SERVICE}
