@@ -2,9 +2,11 @@
 version: '3.7'
 
 services:
+
     postgres:
         image: postgres:9.6
         container_name: postgres_airflow
+        restart: always
         environment:
             - POSTGRES_USER=airflow
             - POSTGRES_PASSWORD=airflow
@@ -13,15 +15,15 @@ services:
             options:
                 max-size: 10m
                 max-file: "3"
-        volumes:
-            - ./sql_dags:/usr/local/etl_dags
 
     airflow:
-        image: puckel/docker-airflow
+        build: airflow
+        image: marwamc/docker-airflow
         container_name: airflow
         restart: always
         depends_on:
             - postgres
+            # - etl_db
         environment:
             - LOAD_EX=n
             - EXECUTOR=Local
@@ -29,10 +31,9 @@ services:
             options:
                 max-size: 10m
                 max-file: "3"
-        links:
-            - "postgres:db"
         volumes:
             - ./airflow_dags:/usr/local/airflow/dags
+            # - ./sql_dags:/usr/local/airflow/etl_dags
             # - ./plugins:/usr/local/airflow/plugins
         ports:
             - "8086:8080"

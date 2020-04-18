@@ -12,6 +12,7 @@ docker_run := docker run -itd --rm
 #-----------------------------------------------------------------------------------------
 # SECTION: MANAGE SERVICE
 start:
+	docker-compose -f airflow-service.yml build
 	docker-compose -f airflow-service.yml up
 
 stop:
@@ -37,3 +38,7 @@ example-search:
 	INDEX='kibana_sample_data_flights' \
 	QUERY=@$(PWD)/lucene_queries/flights.json \
 	--directory es search
+
+# SECTION : DEBUG/TEST
+run:
+	docker run -it --rm --name airflow_test marwamc/docker-airflow:latest bash
