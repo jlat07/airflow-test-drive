@@ -39,13 +39,15 @@ service-inspect:
 run:
 	docker run -it --rm --name airflow_test marwamc/docker-airflow:latest bash
 
+# make PGPASSWORD=etl test1
 test1:
-	psql --host etl_db --port 5432 \
+	psql --host localhost --port 5433 \
 	--username=etl \
 	--dbname etl_db \
 	--echo-errors  --echo-queries \
 	-f sql_dags/contract_status/schema_management/data_raw.sql
 
+# make
 test2:
-	$(MAKE) --directory ${AIRFLOW_HOME}/sql_dags/contract_status
-	$(MAKE) --directory ${AIRFLOW_HOME}/sql_dags/contract_status analysis
+	docker exec -it airflow make --directory sql_dags/contract_status
+	docker exec -it airflow make --directory sql_dags/contract_status analysis
