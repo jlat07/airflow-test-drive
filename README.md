@@ -15,7 +15,7 @@ The following commands [`docker-compose`](./airflow-service.yml) a setup with th
 
 The airflow service is run in LOCAL_EXECUTOR mode, and it's backend is the `airflow_db`.
 
-The goal is to use the airflow service to execute this [`example etl process which in this example is executed using make targets`](https://github.com/marwamc/etl-by-makefile/blob/master/docs/explanation_of_approach.md#intro).
+The goal is to use the airflow service to execute this [`example etl process which in this example is executed using make targets`](https://github.com/marwamc/etl-by-makefile#what-is-being-solved).
 
 NOTE: the airflow service is not yet running the etl process described above.
 
