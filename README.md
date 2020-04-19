@@ -2,11 +2,10 @@
 a simple airflow use case
 
 ## System requirements
-Before attempting to run teh test-drive below, 
-1. GNU Make
+System requirements to run this test-drive: 
+1. GNU Make (usually pre-installed in unix-like systems like Macos, ubuntu etc)
 2. Docker
 3. Psql
-
 
 ## Test drive
 The following commands [`docker-compose`](./airflow-service.yml) a setup with the following containers:
