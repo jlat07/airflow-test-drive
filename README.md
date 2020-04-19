@@ -1,6 +1,13 @@
 # airflow-test-drive
 a simple airflow use case
 
+## System requirements
+Before attempting to run teh test-drive below, 
+1. GNU Make
+2. Docker
+3. Psql
+
+
 ## Test drive
 The following commands [`docker-compose`](./airflow-service.yml) a setup with the following containers:
 1. airflow (webserver from https://github.com/puckel/docker-airflow)
