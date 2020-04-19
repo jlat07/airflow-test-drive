@@ -27,18 +27,25 @@ shell:
 restart:
 	docker-compose -f airflow-service.yml restart ${SERVICE}
 
+cat-airflow-logs:
+	docker exec -it airflow cat logs/dag_processor_manager/dag_processor_manager.log  #tail -f logs/dag_processor_manager/*.log
+
 service-inspect:
 	docker network list
 	docker exec -it airflow ping postgres -v -c 5
 
 #-----------------------------------------------------------------------------------------
-# SECTION: AIRFLOW COMAMNDS
-example-search:
-	$(MAKE) \
-	INDEX='kibana_sample_data_flights' \
-	QUERY=@$(PWD)/lucene_queries/flights.json \
-	--directory es search
-
 # SECTION : DEBUG/TEST
 run:
 	docker run -it --rm --name airflow_test marwamc/docker-airflow:latest bash
+
+test1:
+	psql --host etl_db --port 5432 \
+	--username=etl \
+	--dbname etl_db \
+	--echo-errors  --echo-queries \
+	-f sql_dags/contract_status/schema_management/data_raw.sql
+
+test2:
+	$(MAKE) --directory ${AIRFLOW_HOME}/sql_dags/contract_status
+	$(MAKE) --directory ${AIRFLOW_HOME}/sql_dags/contract_status analysis

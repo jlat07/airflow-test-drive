@@ -1,0 +1,3 @@
+ProductId,Name,Deposit,TotalPrice,PaymentFrequency,PaymentAmount
+1,D30,200.0,1000.0,DAILY,2.0
+2,X850,200.0,1400.0,WEEKLY,14.0

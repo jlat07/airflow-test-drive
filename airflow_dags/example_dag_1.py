@@ -2,31 +2,50 @@
 Code that goes along with the Airflow located at:
 http://airflow.readthedocs.org/en/latest/tutorial.html
 """
+import json
+import logging
+
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
 from datetime import datetime, timedelta
+
+from json_logger import set_log_record_field
+
+set_log_record_field(
+    environment='dev',
+    service_step='example_dag_1',
+    service_version='0.0.1',
+    entity_name='example dag test'
+)
+log: logging = logging.getLogger(__name__)
+
+
+def pp(o):
+    return json.dumps(o, indent=2, default=str)
 
 
 default_args = {
     "owner": "airflow",
     "depends_on_past": False,
-    "start_date": datetime(2015, 6, 1),
+    "start_date": datetime.now() + timedelta(seconds=10),
+    "end_date": datetime.now() + timedelta(seconds=120),
     "email": ["airflow@airflow.com"],
     "email_on_failure": False,
     "email_on_retry": False,
-    "retries": 1,
-    "retry_delay": timedelta(minutes=5),
-    # 'queue': 'bash_queue',
-    # 'pool': 'backfill',
-    # 'priority_weight': 10,
-    # 'end_date': datetime(2016, 1, 1),
+    "retries": 0,
+    "retry_delay": timedelta(seconds=10),
 }
 
-dag = DAG("tutorial", default_args=default_args, schedule_interval=timedelta(1))
+dag = DAG(
+    dag_id="example_dag_1",
+    default_args=default_args,
+    schedule_interval=timedelta(seconds=30),
+    is_paused_upon_creation=False
+)
+log.info(f"DAG INIT: {pp(dag.__dict__)}")
 
 # t1, t2 and t3 are examples of tasks created by instantiating operators
 t1 = BashOperator(task_id="print_date", bash_command="date", dag=dag)
-
 t2 = BashOperator(task_id="sleep", bash_command="sleep 5", retries=3, dag=dag)
 
 templated_command = """
@@ -46,3 +65,7 @@ t3 = BashOperator(
 
 t2.set_upstream(t1)
 t3.set_upstream(t1)
+
+log.info(f"T1: {pp(t1)}")
+log.info(f"T2: {pp(t2)}")
+log.info(f"T3: {pp(t3)}")
