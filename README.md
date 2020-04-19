@@ -24,6 +24,7 @@ make stop
 
 ## To-do
 - [ ] Use PythonOperator/PostgresOperator to execute [this etl](./sql_dags/contract_status/Makefile)
+- [ ] Pip or Clone [sample etl](https://github.com/marwamc/etl-by-makefile/tree/master/dag) instead of manually mounting/uploading the directory
 - [ ] Research airflow sql table templates
 - [ ] Speed up the airflow dags - extremely slow
 - [ ] Deploy stack to a local kubernetes cluster
